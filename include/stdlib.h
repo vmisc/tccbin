@@ -136,7 +136,7 @@ extern "C" {
 
 #ifndef _CRT_ERRNO_DEFINED
 #define _CRT_ERRNO_DEFINED
-  _CRTIMP extern int *__cdecl _errno(void);
+  _CRTIMP int *__cdecl _errno(void);
 #define errno (*_errno())
   errno_t __cdecl _set_errno(int _Value);
   errno_t __cdecl _get_errno(int *_Value);
@@ -403,8 +403,8 @@ extern "C" {
   void *__cdecl malloc(size_t _Size);
   void *__cdecl realloc(void *_Memory,size_t _NewSize);
   _CRTIMP void *__cdecl _recalloc(void *_Memory,size_t _Count,size_t _Size);
-  //_CRTIMP void __cdecl _aligned_free(void *_Memory);
-  //_CRTIMP void *__cdecl _aligned_malloc(size_t _Size,size_t _Alignment);
+  _CRTIMP void __cdecl _aligned_free(void *_Memory);
+  _CRTIMP void *__cdecl _aligned_malloc(size_t _Size,size_t _Alignment);
   _CRTIMP void *__cdecl _aligned_offset_malloc(size_t _Size,size_t _Alignment,size_t _Offset);
   _CRTIMP void *__cdecl _aligned_realloc(void *_Memory,size_t _Size,size_t _Alignment);
   _CRTIMP void *__cdecl _aligned_recalloc(void *_Memory,size_t _Count,size_t _Size,size_t _Alignment);
@@ -544,8 +544,13 @@ extern "C" {
 
   __CRT_INLINE long long __cdecl llabs(long long _j) { return (_j >= 0 ? _j : -_j); }
 
+ #ifdef __TINYC__ /* gr */
+  #define strtoll _strtoi64
+  #define strtoull _strtoui64
+ #else
   long long  __cdecl strtoll(const char* __restrict__, char** __restrict, int);
   unsigned long long  __cdecl strtoull(const char* __restrict__, char** __restrict__, int);
+ #endif
 
   /* these are stubs for MS _i64 versions */
   long long  __cdecl atoll (const char *);

@@ -388,4 +388,19 @@ WCHAR *gai_strerrorW(int);
 }
 #endif
 
+#define InetNtopA inet_ntop
+
+WINSOCK_API_LINKAGE LPCWSTR WSAAPI InetNtopW(INT Family, LPCVOID pAddr, LPWSTR pStringBuf, size_t StringBufSIze);
+WINSOCK_API_LINKAGE LPCSTR WSAAPI InetNtopA(INT Family, LPCVOID pAddr, LPSTR pStringBuf, size_t StringBufSize);
+
+#define InetNtop __MINGW_NAME_AW(InetNtop)
+
+#define InetPtonA inet_pton
+
+WINSOCK_API_LINKAGE INT WSAAPI InetPtonW(INT Family, LPCWSTR pStringBuf, PVOID pAddr);
+WINSOCK_API_LINKAGE INT WSAAPI InetPtonA(INT Family, LPCSTR pStringBuf, PVOID pAddr);
+
+#define InetPton __MINGW_NAME_AW(InetPton)
+
+
 #endif

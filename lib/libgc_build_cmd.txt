@@ -1,5 +1,0 @@
-`thirdparty\libgc\gc.c` needs to be patched: https://gist.github.com/spaceface777/e93ddc20a894280895ddf142d7c3d76e
-
----
-
-.\thirdparty\tcc\tcc.exe .\thirdparty\libgc\gc.c -DGC_NOT_DLL -DGC_WIN32_THREADS -DGC_THREADS -DGC_BUILTIN_ATOMIC -Ithirdparty\libgc\include -c -o gc.o

@@ -80,8 +80,11 @@
 #define __stdcall __attribute__((__stdcall__))
 #define _X86_ 1
 #define _M_IX86 300 /* Visual Studio */
-#define WIN32 1
-#define _USE_32BIT_TIME_T
+#ifndef __MINGW_USE_VC2005_COMPAT /* time became 64, but not timeval.tv_sec */
+# ifndef _USE_32BIT_TIME_T
+#  define _USE_32BIT_TIME_T
+# endif
+#endif
 #endif
 
 /* in stddef.h */
@@ -150,15 +153,16 @@ typedef struct localeinfo_struct _locale_tstruct,*_locale_t;
 #  define DUMMYSTRUCTNAME
 #endif
 #ifndef WINVER
-# define WINVER 0x0502
+# define WINVER 0x0600
 #endif
 #ifndef _WIN32_WINNT
-# define _WIN32_WINNT 0x502
+# define _WIN32_WINNT 0x600
 #endif
 
 #define __C89_NAMELESS
 #define __MINGW_EXTENSION
 #define WINAPI_FAMILY_PARTITION(X) 1
 #define MINGW_HAS_SECURE_API
+#define WIN32 1
 
 #endif /* __MINGW_H */

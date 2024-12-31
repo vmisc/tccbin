@@ -10,6 +10,8 @@
 #define WINBASEAPI DECLSPEC_IMPORT
 #define ZAWPROXYAPI DECLSPEC_IMPORT
 
+#include <fileapi.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -1849,6 +1851,13 @@ extern "C" {
 #define LOAD_IGNORE_CODE_AUTHZ_LEVEL 0x10
 #define LOAD_LINRARY_AS_IMAGE_RESOURCE 0x20
 #define LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE 0x40
+#define LOAD_LIBRARY_REQUIRE_SIGNED_TARGET 0x80
+#define LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR 0x100
+#define LOAD_LIBRARY_SEARCH_APPLICATION_DIR 0x200
+#define LOAD_LIBRARY_SEARCH_USER_DIRS 0x400
+#define LOAD_LIBRARY_SEARCH_SYSTEM32 0x800
+#define LOAD_LIBRARY_SEARCH_DEFAULT_DIRS 0x1000
+#define LOAD_LIBRARY_SAFE_CURRENT_DIRS 0x2000
 
   WINBASEAPI DWORD WINAPI GetModuleFileNameA(HMODULE hModule,LPCH lpFilename,DWORD nSize);
   WINBASEAPI DWORD WINAPI GetModuleFileNameW(HMODULE hModule,LPWCH lpFilename,DWORD nSize);
@@ -2944,6 +2953,27 @@ extern "C" {
   WINBASEAPI WINBOOL WINAPI GetNumaProcessorNode(UCHAR Processor,PUCHAR NodeNumber);
   WINBASEAPI WINBOOL WINAPI GetNumaNodeProcessorMask(UCHAR Node,PULONGLONG ProcessorMask);
   WINBASEAPI WINBOOL WINAPI GetNumaAvailableMemoryNode(UCHAR Node,PULONGLONG AvailableBytes);
+
+#if _WIN32_WINNT >= 0x0600
+
+#define SYMBOLIC_LINK_FLAG_DIRECTORY (0x1)
+#define SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE (0x2)
+
+#define VALID_SYMBOLIC_LINK_FLAGS SYMBOLIC_LINK_FLAG_DIRECTORY
+
+  WINBASEAPI BOOLEAN APIENTRY CreateSymbolicLinkA (LPCSTR lpSymlinkFileName, LPCSTR lpTargetFileName, DWORD dwFlags);
+  WINBASEAPI BOOLEAN APIENTRY CreateSymbolicLinkW (LPCWSTR lpSymlinkFileName, LPCWSTR lpTargetFileName, DWORD dwFlags);
+  WINBASEAPI BOOLEAN APIENTRY CreateSymbolicLinkTransactedA (LPCSTR lpSymlinkFileName, LPCSTR lpTargetFileName, DWORD dwFlags, HANDLE hTransaction);
+  WINBASEAPI BOOLEAN APIENTRY CreateSymbolicLinkTransactedW (LPCWSTR lpSymlinkFileName, LPCWSTR lpTargetFileName, DWORD dwFlags, HANDLE hTransaction);
+  WINBASEAPI WINBOOL WINAPI QueryActCtxSettingsW (DWORD dwFlags, HANDLE hActCtx, PCWSTR settingsNameSpace, PCWSTR settingName, PWSTR pvBuffer, SIZE_T dwBuffer, SIZE_T *pdwWrittenOrRequired);
+  WINBASEAPI WINBOOL WINAPI ReplacePartitionUnit (PWSTR TargetPartition, PWSTR SparePartition, ULONG Flags);
+  WINBASEAPI WINBOOL WINAPI AddSecureMemoryCacheCallback (PSECURE_MEMORY_CACHE_CALLBACK pfnCallBack);
+  WINBASEAPI WINBOOL WINAPI RemoveSecureMemoryCacheCallback (PSECURE_MEMORY_CACHE_CALLBACK pfnCallBack);
+
+#define CreateSymbolicLink __MINGW_NAME_AW(CreateSymbolicLink)
+#define CreateSymbolicLinkTransacted __MINGW_NAME_AW(CreateSymbolicLinkTransacted)
+
+#endif
 
 #ifdef __cplusplus
 }

@@ -1158,11 +1158,8 @@ typedef DWORD LCID;
 #define MemoryFence _mm_mfence
 #define StoreFence _mm_sfence
 
-    __CRT_INLINE VOID __faststorefence() {
-        __asm__ __volatile__ ("mfence");
-    }
-	  
-	  VOID _m_prefetchw(volatile CONST VOID *Source);
+    VOID __faststorefence(VOID);
+    VOID _m_prefetchw(volatile CONST VOID *Source);
 
 //!__TINYC__: #include <intrin.h>
 
@@ -2764,6 +2761,8 @@ typedef DWORD LCID;
 #define PROCESS_SET_INFORMATION (0x0200)
 #define PROCESS_QUERY_INFORMATION (0x0400)
 #define PROCESS_SUSPEND_RESUME (0x0800)
+#define PROCESS_QUERY_LIMITED_INFORMATION (0x1000)
+#define PROCESS_SET_LIMITED_INFORMATION (0x2000)
 #define PROCESS_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0xFFF)
 
 #ifdef _WIN64
@@ -5378,9 +5377,8 @@ typedef DWORD LCID;
     typedef VOID (NTAPI *WAITORTIMERCALLBACKFUNC)(PVOID,BOOLEAN);
     typedef VOID (NTAPI *WORKERCALLBACKFUNC)(PVOID);
     typedef VOID (NTAPI *APC_CALLBACK_FUNCTION)(DWORD ,PVOID,PVOID);
-    typedef
-      VOID
-      (NTAPI *PFLS_CALLBACK_FUNCTION)(PVOID lpFlsData);
+    typedef VOID (NTAPI *PFLS_CALLBACK_FUNCTION)(PVOID lpFlsData);
+    typedef BOOLEAN (NTAPI *PSECURE_MEMORY_CACHE_CALLBACK) (PVOID Addr, SIZE_T Range);
 #define WT_EXECUTEINLONGTHREAD 0x00000010
 #define WT_EXECUTEDELETEWAIT 0x00000008
 

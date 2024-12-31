@@ -1,0 +1,30 @@
+diff a/libgc/gc.c b/libgc/gc.c
+--- a/libgc/gc.c
++++ b/libgc/gc.c
+@@ -35,7 +35,11 @@
+ # define GC_EXTERN GC_INNER
+                 /* STATIC is defined in gcconfig.h. */
+ #endif
+-
++
++#if defined(_WIN32) && defined(__TINYC__)
++#define __GNUC__ 1
++#endif
++
+ /* Small files go first... */
+ /*
+  * Copyright (c) 2001 by Hewlett-Packard Company. All rights reserved.
+@@ -4425,6 +4429,13 @@ EXTERN_C_END
+ #ifndef GC_ATOMIC_OPS_H
+ #define GC_ATOMIC_OPS_H
+ 
++#if defined(__TINYC__)
++#include "stdatomic.h"
++#define __atomic_load_n  atomic_load_explicit
++#define __atomic_store_n atomic_store_explicit
++#define __atomic_compare_exchange_n __atomic_compare_exchange
++#endif
++
+ #ifdef GC_BUILTIN_ATOMIC
+ 
+ 

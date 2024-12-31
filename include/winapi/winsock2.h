@@ -7,6 +7,8 @@
 #ifndef _WINSOCK2API_
 #define _WINSOCK2API_
 
+#include <_mingw_unicode.h>
+
 #ifndef INCL_WINSOCK_API_TYPEDEFS
 #define INCL_WINSOCK_API_TYPEDEFS 0
 #endif
@@ -1388,6 +1390,144 @@ extern "C" {
   WINSOCK_API_LINKAGE INT WSAAPI WSASetServiceA(LPWSAQUERYSETA lpqsRegInfo,WSAESETSERVICEOP essoperation,DWORD dwControlFlags);
   WINSOCK_API_LINKAGE INT WSAAPI WSASetServiceW(LPWSAQUERYSETW lpqsRegInfo,WSAESETSERVICEOP essoperation,DWORD dwControlFlags);
   WINSOCK_API_LINKAGE INT WSAAPI WSAProviderConfigChange(LPHANDLE lpNotificationHandle,LPWSAOVERLAPPED lpOverlapped,LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+#if (_WIN32_WINNT >= 0x0600)
+//typedef struct _WSANAMESPACE_INFOEXA {
+//  GUID NSProviderId;
+//  DWORD dwNameSpace;
+//  WINBOOL fActive;
+//  DWORD dwVersion;
+//  LPSTR lpszIdentifier;
+//  BLOB ProviderSpecific;
+//} WSANAMESPACE_INFOEXA, *PWSANAMESPACE_INFOEXA, *LPWSANAMESPACE_INFOEXA;
+//
+//typedef struct _WSANAMESPACE_INFOEXW {
+//  GUID NSProviderId;
+//  DWORD dwNameSpace;
+//  WINBOOL fActive;
+//  DWORD dwVersion;
+//  LPWSTR lpszIdentifier;
+//  BLOB ProviderSpecific;
+//} WSANAMESPACE_INFOEXW, *PWSANAMESPACE_INFOEXW, *LPWSANAMESPACE_INFOEXW;
+//
+//__MINGW_TYPEDEF_AW(WSANAMESPACE_INFOEX)
+//__MINGW_TYPEDEF_AW(PWSANAMESPACE_INFOEX)
+//__MINGW_TYPEDEF_AW(LPWSANAMESPACE_INFOEX)
+//
+//typedef struct _WSAQUERYSET2A {
+//  DWORD         dwSize;
+//  LPSTR         lpszServiceInstanceName;
+//  LPWSAVERSION  lpVersion;
+//  LPSTR         lpszComment;
+//  DWORD         dwNameSpace;
+//  LPGUID        lpNSProviderId;
+//  LPSTR         lpszContext;
+//  DWORD         dwNumberOfProtocols;
+//  LPAFPROTOCOLS lpafpProtocols;
+//  LPSTR         lpszQueryString;
+//  DWORD         dwNumberOfCsAddrs;
+//  LPCSADDR_INFO lpcsaBuffer;
+//  DWORD         dwOutputFlags;
+//  LPBLOB        lpBlob;
+//} WSAQUERYSET2A, *PWSAQUERYSET2A, *LPWSAQUERYSET2A;
+//
+//typedef struct _WSAQUERYSET2W {
+//  DWORD         dwSize;
+//  LPWSTR        lpszServiceInstanceName;
+//  LPWSAVERSION  lpVersion;
+//  LPWSTR        lpszComment;
+//  DWORD         dwNameSpace;
+//  LPGUID        lpNSProviderId;
+//  LPTSTR        lpszContext;
+//  DWORD         dwNumberOfProtocols;
+//  LPAFPROTOCOLS lpafpProtocols;
+//  LPWSTR        lpszQueryString;
+//  DWORD         dwNumberOfCsAddrs;
+//  LPCSADDR_INFO lpcsaBuffer;
+//  DWORD         dwOutputFlags;
+//  LPBLOB        lpBlob;
+//} WSAQUERYSET2W, *PWSAQUERYSET2W, *LPWSAQUERYSET2W;
+//
+//#define POLLRDNORM 0x0100
+//#define POLLRDBAND 0x0200
+//#define POLLIN    (POLLRDNORM | POLLRDBAND)
+//#define POLLPRI    0x0400
+//
+//#define POLLWRNORM 0x0010
+//#define POLLOUT   (POLLWRNORM)
+//#define POLLWRBAND 0x0020
+//
+//#define POLLERR    0x0001
+//#define POLLHUP    0x0002
+//#define POLLNVAL   0x0004
+//
+//typedef struct pollfd {
+//  SOCKET fd;
+//  short  events;
+//  short  revents;
+//} WSAPOLLFD, *PWSAPOLLFD, *LPWSAPOLLFD;
+//
+//WINSOCK_API_LINKAGE WINBOOL PASCAL WSAConnectByList(
+//  SOCKET s,
+//  PSOCKET_ADDRESS_LIST SocketAddressList,
+//  LPDWORD LocalAddressLength,
+//  LPSOCKADDR LocalAddress,
+//  LPDWORD RemoteAddressLength,
+//  LPSOCKADDR RemoteAddress,
+//  const TIMEVAL *timeout,
+//  LPWSAOVERLAPPED Reserved
+//);
+//
+//WINSOCK_API_LINKAGE WINBOOL PASCAL WSAConnectByNameA(
+//  SOCKET s,
+//  LPSTR nodename,
+//  LPSTR servicename,
+//  LPDWORD LocalAddressLength,
+//  LPSOCKADDR LocalAddress,
+//  LPDWORD RemoteAddressLength,
+//  LPSOCKADDR RemoteAddress,
+//  const TIMEVAL *timeout,
+//  LPWSAOVERLAPPED Reserved
+//);
+//
+WINSOCK_API_LINKAGE WINBOOL PASCAL WSAConnectByNameW(
+  SOCKET s,
+  LPWSTR nodename,
+  LPWSTR servicename,
+  LPDWORD LocalAddressLength,
+  LPSOCKADDR LocalAddress,
+  LPDWORD RemoteAddressLength,
+  LPSOCKADDR RemoteAddress,
+  const void *timeout,
+  LPWSAOVERLAPPED Reserved
+);
+//#define WSAConnectByName __MINGW_NAME_AW(WSAConnectByName)
+//
+//INT WSAAPI WSAEnumNameSpaceProvidersExA(
+//  LPDWORD lpdwBufferLength,
+//  LPWSANAMESPACE_INFOEXA lpnspBuffer
+//);
+//
+//INT WSAAPI WSAEnumNameSpaceProvidersExW(
+//  LPDWORD lpdwBufferLength,
+//  LPWSANAMESPACE_INFOEXW lpnspBuffer
+//);
+//#define WSAEnumNameSpaceProvidersEx __MINGW_NAME_AW(WSAEnumNameSpaceProvidersEx)
+//
+//int WSAAPI WSAPoll(
+//  WSAPOLLFD fdarray[],
+//  ULONG nfds,
+//  INT timeout
+//);
+//
+//int WSAAPI WSASendMsg(
+//  SOCKET s,
+//  LPWSAMSG lpMsg,
+//  DWORD dwFlags,
+//  LPDWORD lpNumberOfBytesSent,
+//  LPWSAOVERLAPPED lpOverlapped,
+//  LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
+//);
+#endif /*(_WIN32_WINNT >= 0x0600)*/
 
   typedef struct sockaddr_in SOCKADDR_IN;
   typedef struct sockaddr_in *PSOCKADDR_IN;

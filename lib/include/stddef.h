@@ -1,6 +1,14 @@
 #ifndef _STDDEF_H
 #define _STDDEF_H
 
+// __v_ start
+// The typedef for _Float16 here, is needed for using math.h with tcc on latest macOS, with M4
+// It has this:
+////// extern _Float16 __fabsf16(_Float16) __API_AVAILABLE(macos(15.0), ios(18.0), watchos(11.0), tvos(18.0));
+// TODO: remove this patch, when tcc supports _Float16 natively.
+typedef float _Float16;
+// __v_ end
+
 typedef __SIZE_TYPE__ size_t;
 typedef __PTRDIFF_TYPE__ ssize_t;
 typedef __WCHAR_TYPE__ wchar_t;
